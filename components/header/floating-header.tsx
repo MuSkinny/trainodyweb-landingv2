@@ -1,7 +1,7 @@
 import { CircleUser, Dumbbell, Menu, Package2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import LanguageSwitcher from "./language-switcher";
 import logo from "@/public/trainody-logo.svg";
@@ -69,30 +69,40 @@ const Header = ({lang}: {lang: string}) => {
         
         <Sheet>
             <SheetTrigger asChild>
-              <Button  size="icon" className="shrink-0 md:hidden bg-foreground">
+              <Button size="icon" className="shrink-0 md:hidden bg-surface text-foreground border border-border hover:bg-surface-2">
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-foreground">
-            <nav className="grid gap-6 text-lg font-medium ">
+            <SheetContent side="right" className="bg-background border-border">
+            <SheetTitle className="sr-only">{lang == 'it' ? 'Menu di navigazione' : 'Navigation menu'}</SheetTitle>
+            <nav className="flex flex-col gap-6 text-lg font-medium">
                 <Link href={`/${lang}`} className="flex items-center gap-2">
-                  <Brand withText={false} />
+                  <Brand />
                   <span className="sr-only">Trainody</span>
                 </Link>
 
-                {menuContent.map((content: any, i: number) => (
-                <Link
-                    key={i}
-                    href={content.href}
-                    className="text-muted-foreground hover:text-foreground"
-                >
-                    {lang == 'it' ? content.title_it : content.title_en}
-                </Link>
-                ))}
-                <Link href={"https://app.trainody.com/sign-in"}>
-                  Login
-                </Link>
+                <div className="flex flex-col gap-4 border-t border-border pt-6">
+                  {menuContent.map((content: any, i: number) => (
+                  <Link
+                      key={i}
+                      href={content.href}
+                      className="text-foreground/80 transition-colors hover:text-primary"
+                  >
+                      {lang == 'it' ? content.title_it : content.title_en}
+                  </Link>
+                  ))}
+                </div>
+
+                <div className="flex flex-col gap-4 border-t border-border pt-6">
+                  <LanguageSwitcher lang={lang} />
+                  <a
+                    href="https://app.trainody.com/sign-in"
+                    className="rounded-lg bg-primary px-4 py-2.5 text-center font-display text-sm uppercase tracking-wide text-primary-foreground"
+                  >
+                    Login
+                  </a>
+                </div>
             </nav>
             </SheetContent>
         </Sheet>

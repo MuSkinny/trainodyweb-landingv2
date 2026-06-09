@@ -16,46 +16,55 @@ const FAQ = async ({
 
     if(!lang || lang !== "it" && lang !== "en") return
     const dict = await getDictionary(lang)
+    const it = lang === "it"
 
     return(
         <section id="faq" className="w-full flex flex-col pt-24 pb-24 px-6">
-            <div className="px-14 w-full flex flex-col items-center justify-items-center py-8">
-                <div className="flex items-center justify-center gap-2 rounded-lg border bg-card px-3 py-1.5 text-foreground/90 shadow-sm">
-                    <MessageCircleQuestion className="size-5" />
-                    <span className="text-foreground text-sm">FAQ</span>
+            <div className="w-full flex flex-col items-center py-8">
+                <div className="flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1.5">
+                    <MessageCircleQuestion className="size-4 text-primary" />
+                    <span className="text-foreground text-xs uppercase tracking-wider">FAQ</span>
                 </div>
-                
-                <h2 className="mt-4 text-3xl lg:text-4xl font-medium text-balance text-center tracking-tight">{dict.faq.title}</h2>
-                <p className="max-w-3xl text-pretty text-center text-muted-foreground md:text-lg">
+
+                <h2 className="mt-5 font-display text-3xl uppercase lg:text-5xl text-balance text-center tracking-tight">{dict.faq.title}</h2>
+                <p className="mt-3 max-w-2xl text-pretty text-center text-muted-foreground md:text-lg">
                     {dict.faq.subtitle}
                 </p>
             </div>
 
             <div className="w-full max-w-3xl mx-auto">
-                
-                {/**
-                 * type can be 'single' or 'multiple'
-                 * 
-                 * single: only one accordion opened. need "collapsible" property (<Accordion type="single" collapsible></Accordion>)
-                 * multiple: multiple accordion opened
-                 */}
-                <Accordion type="multiple" >
+                <Accordion type="multiple" className="flex flex-col gap-3">
                     {
                         faqs.map((faq: FAQType, index: number ) => (
-                            <AccordionItem value={`item-${index}`} key={index}>
-                                <AccordionTrigger>{lang == 'it' ? faq.question : faq.question_en}</AccordionTrigger>
-                                <AccordionContent className="whitespace-pre-line">
+                            <AccordionItem
+                                value={`item-${index}`}
+                                key={index}
+                                className="rounded-xl border border-border bg-surface px-5 transition-colors data-[state=open]:border-primary/40"
+                            >
+                                <AccordionTrigger className="py-5 text-left text-base md:text-lg hover:no-underline [&>svg]:size-5 [&>svg]:text-primary">
+                                    {lang == 'it' ? faq.question : faq.question_en}
+                                </AccordionTrigger>
+                                <AccordionContent className="whitespace-pre-line pb-5 text-base leading-relaxed text-muted-foreground">
                                     {lang == 'it' ? faq.response : faq.response_en}
                                 </AccordionContent>
                             </AccordionItem>
                         ))
                     }
-
-                    
                 </Accordion>
+
+                {/* CTA contatto */}
+                <div className="mt-10 flex flex-col items-center gap-3 rounded-xl border border-border bg-surface px-6 py-8 text-center">
+                    <p className="text-foreground/80">
+                        {it ? "Hai altre domande? Siamo qui per aiutarti." : "Still have questions? We're here to help."}
+                    </p>
+                    <a
+                        href="mailto:info@trainody.com"
+                        className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-display text-sm uppercase tracking-wide text-primary-foreground transition-transform hover:scale-[1.03]"
+                    >
+                        {it ? "Scrivici" : "Contact us"}
+                    </a>
+                </div>
             </div>
-
-
         </section>
     )
 }

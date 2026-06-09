@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import h1 from "@/public/assets/hero-1.png";
-import h2 from "@/public/assets/hero-2.png";
-import h3 from "@/public/assets/hero-3.png";
-import h4 from "@/public/assets/hero-4.png";
-import h5 from "@/public/assets/hero-5.png";
+import h1 from "@/public/assets/hero-1.jpg";
+import h2 from "@/public/assets/hero-2.jpg";
+import h3 from "@/public/assets/hero-3.jpg";
+import h4 from "@/public/assets/hero-4.jpg";
+import h5 from "@/public/assets/hero-5.jpg";
 
 const images = [h1, h2, h3, h4, h5];
 

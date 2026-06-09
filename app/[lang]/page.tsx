@@ -3,6 +3,7 @@ import BentoFeatures from "@/components/bento-features";
 import FAQ from "@/components/faq";
 import Header from "@/components/header/floating-header";
 import Hero from "@/components/hero/hero";
+import HowItWorks from "@/components/how-it-works";
 import VerticalHero from "@/components/hero/VerticalHero";
 import LogoMarquee from "@/components/logo-marquee";
 import Pricing from "@/components/pricing";
@@ -54,6 +55,7 @@ export default async function Index({
       {/* <VerticalHero lang={lang} /> */}
       <Hero lang={lang} />
       <LogoMarquee lang={lang} />
+      <HowItWorks lang={lang} />
       <BentoFeatures lang={lang} />
       {/*<CompareSides />*/}
       <Pricing lang={lang} />  

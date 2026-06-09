@@ -38,11 +38,9 @@ export async function generateMetadata({
       type: "website",
       siteName: "Trainody",
       locale: lang === "it" ? "it_IT" : "en_US",
-      images: [{ url: `/og-image-${lang}.png`, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
-      images: [`/og-image-${lang}.png`],
     },
   };
 }

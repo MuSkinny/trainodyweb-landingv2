@@ -1,4 +1,3 @@
-import ChangeLanguage from "./change-language"
 import Image from "next/image"
 import logo from "@/public/trainody-logo.svg"
 
@@ -44,6 +43,11 @@ const Footer = ({ lang }: { lang: "it" | "en" }) => {
                         </div>
                         <span className="sr-only">Home</span>
                     </a>
+                    <p className="max-w-xs text-sm text-muted-foreground">
+                        {locale === 'it'
+                            ? 'Software gestionale all-in-one per personal trainer.'
+                            : 'All-in-one management software for personal trainers.'}
+                    </p>
                     <div className="mt-3 flex items-center gap-3">
                         {/* instagram */ }
                         <a href="https://www.instagram.com/trainody.app" target="_blank" className="transition-opacity hover:opacity-80">
@@ -67,19 +71,18 @@ const Footer = ({ lang }: { lang: "it" | "en" }) => {
                 <div className="grid w-full max-w-[28rem] grid-cols-2 gap-10">
                     <div className="flex w-full flex-col gap-4">
                         <span className="font-medium text-muted-foreground">{t.quick_links}</span>
-                        <ul className="flex flex-col gap-3">
+                        <ul className="flex flex-col gap-3 [&_a]:transition-colors [&_a:hover]:text-primary">
                             <li className="cursor-pointer">
                                 <a href="/">{t.home}</a>
                             </li>
                             <li className="cursor-pointer">
                                 <a href="#pricing">{t.pricing}</a>
                             </li>
-
-                            <li className="flex gap-1">
-                                {
-                                    locale == 'it' ? <span>Cambia lingua: </span> : <span>Switch to: </span>
-                                }
-                                <ChangeLanguage lang={locale} />
+                            <li className="cursor-pointer">
+                                <a href="#funzioni">{locale === 'it' ? 'Funzionalità' : 'Features'}</a>
+                            </li>
+                            <li className="cursor-pointer">
+                                <a href="#faq">FAQ</a>
                             </li>
                         </ul>
                         
@@ -87,7 +90,7 @@ const Footer = ({ lang }: { lang: "it" | "en" }) => {
 
                     <div className="flex w-full flex-col gap-4">
                         <span className="font-medium text-muted-foreground">{t.legal}</span>
-                        <ul className="flex flex-col gap-3">
+                        <ul className="flex flex-col gap-3 [&_a]:transition-colors [&_a:hover]:text-primary">
                             <li>
                                 <a href={`/${locale}/terms-and-conditions`}>{t.terms}</a>
                             </li>
@@ -103,7 +106,7 @@ const Footer = ({ lang }: { lang: "it" | "en" }) => {
                    {/*
                    <div className="flex w-full flex-col gap-4">
                         <span className="font-medium text-muted-foreground">Other</span>
-                        <ul className="flex flex-col gap-3">
+                        <ul className="flex flex-col gap-3 [&_a]:transition-colors [&_a:hover]:text-primary">
                             <li>
                                 <a href="#">Pricing</a>
                             </li>
@@ -121,8 +124,8 @@ const Footer = ({ lang }: { lang: "it" | "en" }) => {
                     */}
                 </div>
             </div>
-            <div className="w-full flex justify-center md:justify-start">
-                <span className="text-center md:text-left text-sm">Copyright © {year} | Powered by Trainody</span>
+            <div className="w-full flex justify-center border-t border-border pt-8 md:justify-start">
+                <span className="text-center md:text-left text-sm text-muted-foreground">Copyright © {year} · Powered by Trainody</span>
             </div>
             
         </footer>
