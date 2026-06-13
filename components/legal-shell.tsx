@@ -1,15 +1,21 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import Header from "./header/floating-header";
+import type { Lang } from "@/lib/i18n";
+
+const backHome: Record<Lang, string> = {
+  it: "Torna alla home",
+  en: "Back to home",
+  es: "Volver al inicio",
+};
 
 const LegalShell = ({
   lang,
   children,
 }: {
-  lang: string;
+  lang: Lang;
   children: React.ReactNode;
 }) => {
-  const it = lang === "it";
 
   return (
     <div className="relative min-h-screen bg-background">
@@ -25,7 +31,7 @@ const LegalShell = ({
           className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="size-4" />
-          {it ? "Torna alla home" : "Back to home"}
+          {backHome[lang]}
         </Link>
       </div>
 

@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { normalizeLang, type Lang } from "@/lib/i18n";
 
 export const alt = "Trainody — Software per personal trainer";
 export const size = { width: 1200, height: 630 };
@@ -20,8 +21,8 @@ export default async function Image({
 }: {
   params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params;
-  const it = lang !== "en";
+  const { lang: rawLang } = await params;
+  const lang = normalizeLang(rawLang);
 
   const fonts: any[] = [];
   try {
@@ -35,13 +36,24 @@ export default async function Image({
     // se il fetch del font fallisce, si usa il font di default
   }
 
-  const title = it
-    ? "Automatizza le schede. Moltiplica i clienti."
-    : "Automate workouts. Multiply your clients.";
-  const tagline = it
-    ? "Software gestionale all-in-one per personal trainer"
-    : "All-in-one software for personal trainers";
-  const cta = it ? "Inizia gratis" : "Start for free";
+  const copy: Record<Lang, { title: string; tagline: string; cta: string }> = {
+    it: {
+      title: "Automatizza le schede. Moltiplica i clienti.",
+      tagline: "Software gestionale all-in-one per personal trainer",
+      cta: "Inizia gratis",
+    },
+    en: {
+      title: "Automate workouts. Multiply your clients.",
+      tagline: "All-in-one software for personal trainers",
+      cta: "Start for free",
+    },
+    es: {
+      title: "Automatiza las rutinas. Multiplica tus clientes.",
+      tagline: "Software de gestión todo en uno para entrenadores personales",
+      cta: "Empieza gratis",
+    },
+  };
+  const { title, tagline, cta } = copy[lang];
 
   return new ImageResponse(
     (

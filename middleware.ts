@@ -1,10 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 import Negotiator from "negotiator";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
+import { locales as supportedLocales, defaultLocale, isLang } from "./lib/i18n";
 
-// Definisci le lingue supportate
-const locales = ["it", "en"];
-const defaultLocale = "it";
+const locales = [...supportedLocales];
 
 // Mappa dei paesi alle lingue
 const countryToLang: { [key: string]: string } = {
@@ -17,12 +16,30 @@ const countryToLang: { [key: string]: string } = {
   CA: "en",
   AU: "en",
   NZ: "en",
+  ES: "es",
+  MX: "es",
+  AR: "es",
+  CO: "es",
+  CL: "es",
+  PE: "es",
+  VE: "es",
+  EC: "es",
+  GT: "es",
+  BO: "es",
+  PY: "es",
+  UY: "es",
+  CR: "es",
+  PA: "es",
+  DO: "es",
+  HN: "es",
+  SV: "es",
+  NI: "es",
 };
 
 function getPreferredLocale(request: NextRequest): string {
   // Check cookies first
   const storedLocale = request.cookies.get("NEXT_LOCALE")?.value;
-  if (storedLocale && locales.includes(storedLocale)) {
+  if (isLang(storedLocale)) {
     return storedLocale;
   }
 

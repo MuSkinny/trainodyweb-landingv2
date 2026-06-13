@@ -2,7 +2,7 @@
 
 import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const signUpAction = async (formData: FormData) => {
@@ -128,23 +128,3 @@ export const signOutAction = async () => {
   await supabase.auth.signOut();
   return redirect("/sign-in");
 };
-
-
-export async function saveLanguagePreference(formData: FormData) {
-  const current_lang = formData.get("current_lang")?.toString() || 'it'
-  let locale = ''
-
-  if(current_lang == 'en') {
-    locale = 'it'
-  } else {
-    locale = 'en'
-  }
-
-  if(locale) {
-      (await cookies()).set("NEXT_LOCALE", locale, {
-          path: "/",
-          maxAge: 60 * 60 * 24 * 365, // 1 anno
-      })
-  } 
-  redirect(`/${locale}/`)
-}

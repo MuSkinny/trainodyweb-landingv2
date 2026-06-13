@@ -3,6 +3,7 @@ import ButtonCheckout from "./button-checkout"
 import Link from "next/link"
 import { getDictionary } from "@/lib/dictionary"
 import { plans } from "@/lib/plans"
+import { isLang } from "@/lib/i18n"
 
 const Pricing = async ({
     lang
@@ -10,7 +11,7 @@ const Pricing = async ({
     lang: string
 }) => {
 
-    if(!lang || lang !== 'it' && lang !== 'en') return
+    if(!isLang(lang)) return
 
     const dict = await getDictionary(lang)
 
@@ -41,7 +42,7 @@ const Pricing = async ({
                                 <div>
                                     <span className="text-sm uppercase tracking-wider opacity-70">{plan.name}</span>
                                     <p className="relative flex items-end gap-1 py-5 md:py-7">
-                                        <span className="font-display text-4xl md:text-5xl">{lang == 'it' ? plan.price : plan.price_en}</span>
+                                        <span className="font-display text-4xl md:text-5xl">{plan.price[lang]}</span>
                                         { plan.oldPrice && <span className="ml-3 text-lg font-medium line-through opacity-45 md:text-3xl">{plan.oldPrice}</span>}
                                         {i !== 0 && <span>/{dict.common.month}</span> }
                                     </p>
@@ -59,7 +60,7 @@ const Pricing = async ({
                                                       </svg>
                                                 )}
                                                 <span className="text-balance">
-                                                    <span className="mr-1">{lang == 'it' ? feature.title : feature.title_en}</span>
+                                                    <span className="mr-1">{feature.title[lang]}</span>
                                                 </span>
                                             </div>
                                         ))

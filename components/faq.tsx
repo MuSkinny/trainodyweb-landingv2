@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/accordion"
 import { getDictionary } from "@/lib/dictionary";
 import { faqs, type FAQType } from "@/lib/faqs";
+import { isLang } from "@/lib/i18n";
 import { MessageCircleQuestion } from "lucide-react"
 
 const FAQ = async ({
@@ -14,9 +15,14 @@ const FAQ = async ({
     lang: string
 }) => {
 
-    if(!lang || lang !== "it" && lang !== "en") return
+    if(!isLang(lang)) return
     const dict = await getDictionary(lang)
-    const it = lang === "it"
+
+    const cta = {
+        it: { question: "Hai altre domande? Siamo qui per aiutarti.", button: "Scrivici" },
+        en: { question: "Still have questions? We're here to help.", button: "Contact us" },
+        es: { question: "¿Tienes más preguntas? Estamos aquí para ayudarte.", button: "Escríbenos" },
+    }[lang]
 
     return(
         <section id="faq" className="w-full flex flex-col pt-24 pb-24 px-6">
@@ -42,10 +48,10 @@ const FAQ = async ({
                                 className="rounded-xl border border-border bg-surface px-5 transition-colors data-[state=open]:border-primary/40"
                             >
                                 <AccordionTrigger className="py-5 text-left text-base md:text-lg hover:no-underline [&>svg]:size-5 [&>svg]:text-primary">
-                                    {lang == 'it' ? faq.question : faq.question_en}
+                                    {faq.question[lang]}
                                 </AccordionTrigger>
                                 <AccordionContent className="whitespace-pre-line pb-5 text-base leading-relaxed text-muted-foreground">
-                                    {lang == 'it' ? faq.response : faq.response_en}
+                                    {faq.response[lang]}
                                 </AccordionContent>
                             </AccordionItem>
                         ))
@@ -55,13 +61,13 @@ const FAQ = async ({
                 {/* CTA contatto */}
                 <div className="mt-10 flex flex-col items-center gap-3 rounded-xl border border-border bg-surface px-6 py-8 text-center">
                     <p className="text-foreground/80">
-                        {it ? "Hai altre domande? Siamo qui per aiutarti." : "Still have questions? We're here to help."}
+                        {cta.question}
                     </p>
                     <a
                         href="mailto:info@trainody.com"
                         className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-display text-sm uppercase tracking-wide text-primary-foreground transition-transform hover:scale-[1.03]"
                     >
-                        {it ? "Scrivici" : "Contact us"}
+                        {cta.button}
                     </a>
                 </div>
             </div>

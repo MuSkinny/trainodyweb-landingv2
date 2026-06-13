@@ -3,8 +3,15 @@ import AnimatedText from "../AnimatedText";
 import TestimonialAvatars from "../testimonials/TestimonialAvatars";
 import { getDictionary } from "@/lib/dictionary";
 import HeroCarousel from "./hero-carousel";
+import type { Lang } from "@/lib/i18n";
 
-const Hero = async ({ lang }: { lang: any }) => {
+const microCopy: Record<Lang, string> = {
+  it: "Nessuna carta richiesta · Inizia in 2 minuti",
+  en: "No card required · Get started in 2 minutes",
+  es: "No se requiere tarjeta · Empieza en 2 minutos",
+};
+
+const Hero = async ({ lang }: { lang: Lang }) => {
   const dict = await getDictionary(lang);
 
   return (
@@ -49,9 +56,7 @@ const Hero = async ({ lang }: { lang: any }) => {
               {dict.hero.ctaButtonText}
             </Link>
             <span className="text-xs text-foreground/50">
-              {lang === "it"
-                ? "Nessuna carta richiesta · Inizia in 2 minuti"
-                : "No card required · Get started in 2 minutes"}
+              {microCopy[lang]}
             </span>
           </div>
         </AnimatedText>

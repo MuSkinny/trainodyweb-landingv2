@@ -13,6 +13,102 @@ import {
 import ScrollReveal from "./animations/scroll-reveal";
 import { Calendar } from "./ui/calendar";
 import { getDictionary } from "@/lib/dictionary";
+import { isLang, type Lang } from "@/lib/i18n";
+
+// Copy dimostrativo delle card (non passa dai dizionari perché legato ai mockup).
+const demoCopy: Record<
+  Lang,
+  {
+    exercises: [string, string, boolean][];
+    videos: [string, string, string][];
+    revenueLabel: string;
+    chat: [string, string, string][];
+    appBullets: string[];
+    stores: string;
+  }
+> = {
+  it: {
+    exercises: [
+      ["Panca piana", "4 × 10", true],
+      ["Squat", "5 × 8", true],
+      ["Stacco da terra", "3 × 12", true],
+      ["Lat machine", "4 × 12", false],
+    ],
+    videos: [
+      ["Squat", "Gambe", "0:45"],
+      ["Panca piana", "Petto", "1:10"],
+      ["Stacco da terra", "Schiena", "0:58"],
+      ["Plank", "Core", "0:30"],
+    ],
+    revenueLabel: "Incassi questo mese",
+    chat: [
+      ["in", "Giulia", "Ciao! Ho finito la scheda di oggi 💪"],
+      ["out", "", "Grande Giulia! Com'è andato lo squat?"],
+      ["in", "Giulia", "Bene, sono salita a 60kg! 🔥"],
+      ["out", "", "Perfetto, la prossima settimana aumentiamo ancora"],
+    ],
+    appBullets: [
+      "Schede sempre a portata di mano",
+      "Traccia allenamenti e progressi",
+      "Promemoria e notifiche push",
+    ],
+    stores: "Disponibile per iOS e Android",
+  },
+  en: {
+    exercises: [
+      ["Bench Press", "4 × 10", true],
+      ["Squat", "5 × 8", true],
+      ["Deadlift", "3 × 12", true],
+      ["Lat Pulldown", "4 × 12", false],
+    ],
+    videos: [
+      ["Squat", "Legs", "0:45"],
+      ["Bench Press", "Chest", "1:10"],
+      ["Deadlift", "Back", "0:58"],
+      ["Plank", "Core", "0:30"],
+    ],
+    revenueLabel: "Revenue this month",
+    chat: [
+      ["in", "Giulia", "Hi! Just finished today's workout 💪"],
+      ["out", "", "Great Giulia! How did the squat feel?"],
+      ["in", "Giulia", "Good, I went up to 60kg! 🔥"],
+      ["out", "", "Perfect, we'll add more next week"],
+    ],
+    appBullets: [
+      "Workouts always in their pocket",
+      "Track training and progress",
+      "Reminders and push notifications",
+    ],
+    stores: "Available for iOS & Android",
+  },
+  es: {
+    exercises: [
+      ["Press de banca", "4 × 10", true],
+      ["Sentadilla", "5 × 8", true],
+      ["Peso muerto", "3 × 12", true],
+      ["Jalón al pecho", "4 × 12", false],
+    ],
+    videos: [
+      ["Sentadilla", "Piernas", "0:45"],
+      ["Press de banca", "Pecho", "1:10"],
+      ["Peso muerto", "Espalda", "0:58"],
+      ["Plancha", "Core", "0:30"],
+    ],
+    revenueLabel: "Ingresos este mes",
+    chat: [
+      ["in", "Giulia", "¡Hola! Acabo de terminar la rutina de hoy 💪"],
+      ["out", "", "¡Muy bien Giulia! ¿Qué tal la sentadilla?"],
+      ["in", "Giulia", "¡Bien, he subido a 60 kg! 🔥"],
+      ["out", "", "Perfecto, la próxima semana subimos otra vez"],
+    ],
+    appBullets: [
+      "Rutinas siempre al alcance de la mano",
+      "Registra entrenamientos y progreso",
+      "Recordatorios y notificaciones push",
+    ],
+    stores: "Disponible para iOS y Android",
+  },
+};
 
 const cardCls =
   "group relative flex flex-col overflow-hidden rounded-xl bg-surface ring-1 ring-border transition-all duration-300 hover:ring-primary/40 hover:shadow-glow";
@@ -38,9 +134,9 @@ const CardHeader = ({
 );
 
 const BentoFeatures = async ({ lang }: { lang: string }) => {
-  if (!lang || (lang !== "it" && lang !== "en")) return;
+  if (!isLang(lang)) return;
   const dict = await getDictionary(lang);
-  const it = lang === "it";
+  const demo = demoCopy[lang];
 
   const clients = [
     { initials: "MR", name: "Marco R.", prog: 82 },
@@ -49,19 +145,7 @@ const BentoFeatures = async ({ lang }: { lang: string }) => {
     { initials: "SF", name: "Sara F.", prog: 91 },
   ];
 
-  const exercises = it
-    ? [
-        ["Panca piana", "4 × 10", true],
-        ["Squat", "5 × 8", true],
-        ["Stacco da terra", "3 × 12", true],
-        ["Lat machine", "4 × 12", false],
-      ]
-    : [
-        ["Bench Press", "4 × 10", true],
-        ["Squat", "5 × 8", true],
-        ["Deadlift", "3 × 12", true],
-        ["Lat Pulldown", "4 × 12", false],
-      ];
+  const exercises = demo.exercises;
 
   const revenue = [45, 62, 50, 78, 60, 88, 72];
 
@@ -173,20 +257,7 @@ const BentoFeatures = async ({ lang }: { lang: string }) => {
             desc={dict.features.exercises_desc}
           />
           <div className="grid flex-1 content-center grid-cols-1 gap-2.5 px-6 pb-6 pt-1 sm:grid-cols-2">
-            {(it
-              ? [
-                  ["Squat", "Gambe", "0:45"],
-                  ["Panca piana", "Petto", "1:10"],
-                  ["Stacco da terra", "Schiena", "0:58"],
-                  ["Plank", "Core", "0:30"],
-                ]
-              : [
-                  ["Squat", "Legs", "0:45"],
-                  ["Bench Press", "Chest", "1:10"],
-                  ["Deadlift", "Back", "0:58"],
-                  ["Plank", "Core", "0:30"],
-                ]
-            ).map(([name, muscle, dur]) => (
+            {demo.videos.map(([name, muscle, dur]) => (
               <div
                 key={name}
                 className="flex items-center gap-3 rounded-lg bg-surface-2 px-3 py-2.5"
@@ -226,7 +297,7 @@ const BentoFeatures = async ({ lang }: { lang: string }) => {
                   </span>
                 </div>
                 <p className="text-[11px] text-muted-foreground">
-                  {it ? "Incassi questo mese" : "Revenue this month"}
+                  {demo.revenueLabel}
                 </p>
               </div>
               <div className="flex h-12 items-end gap-1.5">
@@ -252,20 +323,7 @@ const BentoFeatures = async ({ lang }: { lang: string }) => {
             desc={dict.features.chat_desc}
           />
           <div className="flex flex-1 flex-col justify-center gap-3 px-6 pb-6 pt-1">
-            {(it
-              ? [
-                  ["in", "Giulia", "Ciao! Ho finito la scheda di oggi 💪"],
-                  ["out", "", "Grande Giulia! Com'è andato lo squat?"],
-                  ["in", "Giulia", "Bene, sono salita a 60kg! 🔥"],
-                  ["out", "", "Perfetto, la prossima settimana aumentiamo ancora"],
-                ]
-              : [
-                  ["in", "Giulia", "Hi! Just finished today's workout 💪"],
-                  ["out", "", "Great Giulia! How did the squat feel?"],
-                  ["in", "Giulia", "Good, I went up to 60kg! 🔥"],
-                  ["out", "", "Perfect, we'll add more next week"],
-                ]
-            ).map(([dir, name, text], i) =>
+            {demo.chat.map(([dir, name, text], i) =>
               dir === "in" ? (
                 <div key={i} className="flex items-start gap-2.5">
                   <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-surface-2 text-[10px] font-semibold text-foreground ring-1 ring-border">
@@ -302,18 +360,7 @@ const BentoFeatures = async ({ lang }: { lang: string }) => {
           />
           <div className="flex flex-1 flex-col px-6 pb-6 pt-1">
             <div className="space-y-2.5">
-              {(it
-                ? [
-                    "Schede sempre a portata di mano",
-                    "Traccia allenamenti e progressi",
-                    "Promemoria e notifiche push",
-                  ]
-                : [
-                    "Workouts always in their pocket",
-                    "Track training and progress",
-                    "Reminders and push notifications",
-                  ]
-              ).map((b) => (
+              {demo.appBullets.map((b) => (
                 <div key={b} className="flex items-center gap-2.5">
                   <span className="flex size-4 shrink-0 items-center justify-center rounded-[5px] bg-primary text-primary-foreground">
                     <Check className="size-3" strokeWidth={3} />
@@ -331,7 +378,7 @@ const BentoFeatures = async ({ lang }: { lang: string }) => {
                 <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.2439 13.8533 7.8508 12 7.8508s-3.5902.3931-5.1367 1.0989L4.841 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3435-4.1021-2.6892-7.5743-6.1185-9.4396" />
               </svg>
               <span className="text-xs text-muted-foreground">
-                {it ? "Disponibile per iOS e Android" : "Available for iOS & Android"}
+                {demo.stores}
               </span>
             </div>
           </div>

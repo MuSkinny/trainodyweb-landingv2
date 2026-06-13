@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
+import { locales, defaultLocale, ogLocales, type Lang } from "./i18n";
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.trainody.com";
-
-type Lang = "it" | "en";
 
 type BuildMetadataParams = {
   lang: Lang;
@@ -20,11 +19,12 @@ export function buildMetadata({
 }: BuildMetadataParams): Metadata {
   const canonical = `${SITE_URL}/${lang}${path}`;
   const languages = {
-    it: `${SITE_URL}/it${path}`,
-    en: `${SITE_URL}/en${path}`,
-    "x-default": `${SITE_URL}/it${path}`,
+    ...Object.fromEntries(
+      locales.map((locale) => [locale, `${SITE_URL}/${locale}${path}`])
+    ),
+    "x-default": `${SITE_URL}/${defaultLocale}${path}`,
   };
-  const ogLocale = lang === "it" ? "it_IT" : "en_US";
+  const ogLocale = ogLocales[lang];
   // L'immagine OG è generata dinamicamente da app/[lang]/opengraph-image.tsx
 
   return {

@@ -21,6 +21,7 @@ import Banner from "@/components/banner";
 import { TranslationsProvider } from "@/context/translation-context";
 import { getDictionary } from "@/lib/dictionary";
 import { SITE_URL } from "@/lib/seo";
+import { locales, isLang, normalizeLang, ogLocales } from "@/lib/i18n";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -31,13 +32,13 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang: rawLang } = await params;
-  const lang = rawLang === "en" ? "en" : "it";
+  const lang = normalizeLang(rawLang);
   return {
     metadataBase: new URL(SITE_URL),
     openGraph: {
       type: "website",
       siteName: "Trainody",
-      locale: lang === "it" ? "it_IT" : "en_US",
+      locale: ogLocales[lang],
     },
     twitter: {
       card: "summary_large_image",
@@ -46,7 +47,7 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  return ['it', 'en'].map((locale) => ({ lang: locale }))
+  return locales.map((locale) => ({ lang: locale }))
 }
 
 
@@ -60,8 +61,8 @@ export default async function RootLayout({
 
   const { lang } = await params
   // Verifica che lang sia definito
-  if (!lang || (lang !== 'it' && lang !== 'en')) {
-    return 
+  if (!isLang(lang)) {
+    return
   }
 
   const dictionary = await getDictionary(lang)

@@ -5,6 +5,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import LanguageSwitcher from "./language-switcher";
 import logo from "@/public/trainody-logo.svg";
+import type { Lang } from "@/lib/i18n";
 
 const Brand = ({ withText = true }: { withText?: boolean }) => (
   <span className="flex items-center gap-2">
@@ -27,22 +28,25 @@ const Brand = ({ withText = true }: { withText?: boolean }) => (
 const menuContent = [
   {
     href: "#funzioni",
-    title_it: "Funzionalità",
-    title_en: "Features",
+    title: { it: "Funzionalità", en: "Features", es: "Funciones" },
   },
   {
     href: "#pricing",
-    title_it: "Prezzi",
-    title_en: "Pricing",
+    title: { it: "Prezzi", en: "Pricing", es: "Precios" },
   },
   {
     href: "#faq",
-    title_it: "FAQ",
-    title_en: "FAQ",
+    title: { it: "FAQ", en: "FAQ", es: "FAQ" },
   },
 ];
 
-const Header = ({lang}: {lang: string}) => {
+const sheetTitle: Record<Lang, string> = {
+  it: "Menu di navigazione",
+  en: "Navigation menu",
+  es: "Menú de navegación",
+};
+
+const Header = ({lang}: {lang: Lang}) => {
   return (
     <header className="w-full absolute flex justify-between h-16 items-center gap-4 px-4 md:px-6 z-50 bg-transparent">
         <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:justify-between w-full md:gap-5 md:text-sm lg:gap-6">
@@ -56,7 +60,7 @@ const Header = ({lang}: {lang: string}) => {
                     href={content.href}
                     className="text-foreground/80 transition-colors hover:text-primary"
                 >
-                    {lang == 'it' ? content.title_it : content.title_en}
+                    {content.title[lang]}
                 </Link>
               ))}
               <LanguageSwitcher lang={lang} />
@@ -75,7 +79,7 @@ const Header = ({lang}: {lang: string}) => {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="bg-background border-border">
-            <SheetTitle className="sr-only">{lang == 'it' ? 'Menu di navigazione' : 'Navigation menu'}</SheetTitle>
+            <SheetTitle className="sr-only">{sheetTitle[lang]}</SheetTitle>
             <nav className="flex flex-col gap-6 text-lg font-medium">
                 <Link href={`/${lang}`} className="flex items-center gap-2">
                   <Brand />
@@ -89,7 +93,7 @@ const Header = ({lang}: {lang: string}) => {
                       href={content.href}
                       className="text-foreground/80 transition-colors hover:text-primary"
                   >
-                      {lang == 'it' ? content.title_it : content.title_en}
+                      {content.title[lang]}
                   </Link>
                   ))}
                 </div>

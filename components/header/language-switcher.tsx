@@ -12,6 +12,7 @@ import {
 const locales = [
   { code: "it", label: "Italiano", short: "IT" },
   { code: "en", label: "English", short: "EN" },
+  { code: "es", label: "Español", short: "ES" },
 ];
 
 const LanguageSwitcher = ({ lang }: { lang: string }) => {

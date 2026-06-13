@@ -1,27 +1,45 @@
 import Image from "next/image"
 import logo from "@/public/trainody-logo.svg"
+import type { Lang } from "@/lib/i18n"
 
-const Footer = ({ lang }: { lang: "it" | "en" }) => {
+const copy: Record<Lang, { quick_links: string; home: string; pricing: string; features: string; legal: string; terms: string; privacy: string; tagline: string }> = {
+    it: {
+        quick_links: "Link rapidi",
+        home: "Home",
+        pricing: "Prezzi",
+        features: "Funzionalità",
+        legal: "Note legali",
+        terms: "Termini e condizioni",
+        privacy: "Privacy Policy",
+        tagline: "Software gestionale all-in-one per personal trainer.",
+    },
+    en: {
+        quick_links: "Quick links",
+        home: "Home",
+        pricing: "Pricing",
+        features: "Features",
+        legal: "Legal",
+        terms: "Terms and Conditions",
+        privacy: "Privacy Policy",
+        tagline: "All-in-one management software for personal trainers.",
+    },
+    es: {
+        quick_links: "Enlaces rápidos",
+        home: "Inicio",
+        pricing: "Precios",
+        features: "Funciones",
+        legal: "Información legal",
+        terms: "Términos y condiciones",
+        privacy: "Política de privacidad",
+        tagline: "Software de gestión todo en uno para entrenadores personales.",
+    },
+}
+
+const Footer = ({ lang }: { lang: Lang }) => {
 
     const year = new Date().getFullYear()
     const locale = lang
-    const t = lang === 'it'
-        ? {
-            quick_links: "Link rapidi",
-            home: "Home",
-            pricing: "Prezzi",
-            legal: "Note legali",
-            terms: "Termini e condizioni",
-            privacy: "Privacy Policy",
-          }
-        : {
-            quick_links: "Quick links",
-            home: "Home",
-            pricing: "Pricing",
-            legal: "Legal",
-            terms: "Terms and Conditions",
-            privacy: "Privacy Policy",
-          }
+    const t = copy[lang]
 
     return(
         <footer className="items-center flex w-full max-w-[83rem] flex-col gap-10 px-6 pt-12 sm:items-start sm:gap-12 md:gap-14 md:pt-16 lg:gap-16 lg:pt-20 pb-16">
@@ -44,9 +62,7 @@ const Footer = ({ lang }: { lang: "it" | "en" }) => {
                         <span className="sr-only">Home</span>
                     </a>
                     <p className="max-w-xs text-sm text-muted-foreground">
-                        {locale === 'it'
-                            ? 'Software gestionale all-in-one per personal trainer.'
-                            : 'All-in-one management software for personal trainers.'}
+                        {t.tagline}
                     </p>
                     <div className="mt-3 flex items-center gap-3">
                         {/* instagram */ }
@@ -79,7 +95,7 @@ const Footer = ({ lang }: { lang: "it" | "en" }) => {
                                 <a href="#pricing">{t.pricing}</a>
                             </li>
                             <li className="cursor-pointer">
-                                <a href="#funzioni">{locale === 'it' ? 'Funzionalità' : 'Features'}</a>
+                                <a href="#funzioni">{t.features}</a>
                             </li>
                             <li className="cursor-pointer">
                                 <a href="#faq">FAQ</a>

@@ -10,6 +10,7 @@ import Pricing from "@/components/pricing";
 import TestimonialGrid from "@/components/testimonials/testimonials-grid";
 import JsonLd from "@/components/json-ld";
 import { buildMetadata } from "@/lib/seo";
+import { normalizeLang } from "@/lib/i18n";
 import type { Metadata } from "next";
 
 const homeMeta = {
@@ -23,6 +24,11 @@ const homeMeta = {
     description:
       "All-in-one personal trainer software: build workout plans, track client progress, and manage payments and scheduling in one platform. Start for free.",
   },
+  es: {
+    title: "Trainody — Software para entrenadores personales",
+    description:
+      "Software de gestión para entrenadores personales: crea rutinas de entrenamiento, supervisa a tus clientes y gestiona pagos y calendario en una única plataforma. Empieza gratis.",
+  },
 };
 
 export async function generateMetadata({
@@ -31,7 +37,7 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang: rawLang } = await params;
-  const lang = rawLang === "en" ? "en" : "it";
+  const lang = normalizeLang(rawLang);
   return buildMetadata({
     lang,
     path: "",
@@ -46,7 +52,7 @@ export default async function Index({
   params: Promise<{ lang: string }>;
 }) {
   const { lang: rawLang } = await params;
-  const lang = rawLang === "en" ? "en" : "it";
+  const lang = normalizeLang(rawLang);
 
   return (
     <div className="w-full mx-auto bg-background relative">

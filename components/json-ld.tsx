@@ -1,6 +1,7 @@
 import { SITE_URL } from "@/lib/seo";
 import { plans } from "@/lib/plans";
 import { faqs } from "@/lib/faqs";
+import type { Lang } from "@/lib/i18n";
 
 function JsonLdScript({ data }: { data: Record<string, any> }) {
   return (
@@ -11,7 +12,7 @@ function JsonLdScript({ data }: { data: Record<string, any> }) {
   );
 }
 
-const JsonLd = ({ lang }: { lang: "it" | "en" }) => {
+const JsonLd = ({ lang }: { lang: Lang }) => {
   const organization = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -40,10 +41,10 @@ const JsonLd = ({ lang }: { lang: "it" | "en" }) => {
     "@type": "FAQPage",
     mainEntity: faqs.map((faq) => ({
       "@type": "Question",
-      name: lang === "it" ? faq.question : faq.question_en,
+      name: faq.question[lang],
       acceptedAnswer: {
         "@type": "Answer",
-        text: lang === "it" ? faq.response : faq.response_en,
+        text: faq.response[lang],
       },
     })),
   };
